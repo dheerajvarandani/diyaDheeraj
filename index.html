@@ -6,12 +6,34 @@
                       width=device-width, initial-scale=1.0, 
                       minimum-scale=1.0, maximum-scale=1.0, 
                       user-scalable=no, target-densitydpi=device-dpi">
+
+
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     </head>
     <title>Diya and Dheeraj</title>
     
     <body>       
+              <div id="details">
 
-                <iframe id="rsvp_iframe" src="https://script.google.com/macros/s/AKfycbwVWBBPtVkN9SNAc_MdDRUeZsBvKzmrnd6c9J3qVz7aJJVFm35Htk8bY4P9R-smKLuc/exec" width="400" height="150"></iframe>
+                <h1 id="saveTheDate">Save the Date!</h1>
+                <h4>Together with their families,</h4>
+                <h4>Diya and Dheeraj</h4>
+                <h4>cordially invite you to their</h4>
+                <h4>ENGAGEMENT CEREMONY</h4>
+                <h3>Sunday, October 20</h3>
+                <a href="https://maps.app.goo.gl/BuwVJHQ38axmTF9e9" target="_blank"><h4>A Venue on the Ridge</h4></a>
+                
+
+              </div>
+
+              <div id="rsvp_div">
+                <h2>RSVP</h2>
+                <iframe id="rsvp_iframe" src="https://script.google.com/macros/s/AKfycbwVWBBPtVkN9SNAc_MdDRUeZsBvKzmrnd6c9J3qVz7aJJVFm35Htk8bY4P9R-smKLuc/exec" width="350" height="150"></iframe>
+          
+              </div>
                 <img class="hidden" alt="preloading" />
 
     </body>
@@ -50,7 +72,7 @@
     body {
         background: #222;
         color: #fff;
-        font-family: 'Fredericka the Great', serif;
+        font-family: 'Poppins';
         margin: 0;
         height: 100vh;
         background-position: center;
@@ -59,9 +81,51 @@
         transition: background-image 1s;
       }
 
+
+      a{
+        color: white;
+      }
+
+      h1,h2,h3,h4{
+        width: max-content;
+        margin: auto;
+        font: x-large;
+        
+      }
+
+      h4{
+
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+
+      }
+
+      #rsvp_div{
+        width: 350px;
+        margin: auto;
+        margin: 40vh auto 5% auto;
+  
+      }
+
+      #rsvp_iframe{
+        border-radius: 1em;
+      }
+
     .hidden {
         display: none;
       }
+
+    #details{
+
+      background-color: rgba(54, 33, 123, 0.616);
+      width: 100%;
+      height: max-content;
+      padding: 2%;
+    }
+
+
+
 
 
     </style>
