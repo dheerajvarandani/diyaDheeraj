@@ -14,30 +14,65 @@
                 <iframe id="rsvp_iframe" src="https://script.google.com/macros/s/AKfycbwqWWnvPfyVK3MnhApjW83d1xNrR5uQxwHxhsY3Q4yMXY-HzfHDYWBHGwgjHzpM0Bed/exec" width="700" height="200" allowTransparency = "true"></iframe>
             </div>
         </div>
+
+        <!-- Slideshow container -->
+    <div class="slideshow-container">
+
+        <!-- Full-width images -->
+        <div class="mySlides fade">
+            <img src="./images/4.jpg">
+        </div>
+    
+        <div class="mySlides fade">
+            <img src="./images/2.jpg">
+        </div>
+    
+        <div class="mySlides fade">
+            <img src="./images/3.jpg">
+        </div>
+
+    </div>
     
         
     </body>
 
 
+    <script>
+
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}
+        slides[slideIndex-1].style.display = "block";
+        setTimeout(showSlides, 7000); // Change image every 7 seconds
+        }
+
+    </script>
+
     <style>
 
         body{
 
-            background-image: url('./images/lovebg.jpg');
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: 50% 0;
+            /*background-image: url('./images/lovebg.jpg');*/
             font-size: xx-large;
             font-family: Arial, Helvetica, sans-serif;
         }
 
         #rsvp_div{
             color: white;
-            display: grid;
-            justify-content: center;
-            position: relative;
+            position: absolute;
             top: 50%;
-            
+            z-index: 5;
+            margin: auto;
+            left: 0;
+            right: 0;
 
         }
 
@@ -52,6 +87,17 @@
             display: flex;
             font-family:Verdana, Geneva, Tahoma, sans-serif;
             justify-content: center;
+        }
+
+        /* Fading animation */
+        .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+        from {opacity: .4}
+        to {opacity: 1}
         }
     </style>
 
