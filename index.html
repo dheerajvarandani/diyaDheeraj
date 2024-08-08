@@ -9,15 +9,40 @@
     </head>
     <title>Diya and Dheeraj</title>
     
-    <body>
-
-        
+    <body>       
 
                 <iframe id="rsvp_iframe" src="https://script.google.com/macros/s/AKfycbwVWBBPtVkN9SNAc_MdDRUeZsBvKzmrnd6c9J3qVz7aJJVFm35Htk8bY4P9R-smKLuc/exec" width="400" height="150"></iframe>
 
-    
-        
     </body>
+
+    <script>
+      const images = [
+        './images/1.JPG',
+        './images/2.JPG',
+        './images/3.JPG',
+        './images/4.JPG',
+        './images/5.JPG',
+        './images/6.JPG',
+        './images/7.JPG'
+  
+      ]
+      window.onload = () => {
+        // preloading
+        document.body.style.backgroundImage = `url(${images[0]})`
+        document.querySelector('.hidden').src = images[1]
+        let i = 1
+        setInterval(() => {
+          document.body.style.backgroundImage = `url(${images[i++]})`
+
+          if (i === images.length) i = 0
+          else {
+            // preload the next image, so that it transitions smoothly
+            document.querySelector('.hidden').src = images[i]
+          }
+        }, 7000)
+      }
+
+    </script>
 
 
 
