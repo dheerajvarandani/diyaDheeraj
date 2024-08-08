@@ -12,10 +12,17 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Grey+Qo&family=Montserrat:wght@100&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     </head>
     <title>Diya and Dheeraj</title>
     
     <body>       
+
+              <div id="names">Diya and Dheeraj</div>
+
+
+              <div id="slideshow"></div>
+
               <div id="details">
 
                 <h1 id="saveTheDate">Save the Date!</h1>
@@ -28,6 +35,8 @@
                 
 
               </div>
+
+
 
               <div id="rsvp_div">
                 <h2>RSVP</h2>
@@ -49,13 +58,15 @@
           './images/7.JPG'
     
         ]
+
+        var slideshowDiv = document.getElementById("slideshow");
         window.onload = () => {
           // preloading
-          document.body.style.backgroundImage = `url(${images[0]})`
+          slideshowDiv.style.backgroundImage = `url(${images[0]})`
           document.querySelector('.hidden').src = images[1]
           let i = 1
           setInterval(() => {
-            document.body.style.backgroundImage = `url(${images[i++]})`
+            slideshowDiv.style.backgroundImage = `url(${images[i++]})`
 
             if (i === images.length) i = 0
             else {
@@ -70,8 +81,8 @@
     <style>
 
     body {
-        background: #222;
-        color: #fff;
+        background: #fff4dc;
+        color: #810000;
         font-family: 'Poppins';
         margin: 0;
         height: 100vh;
@@ -81,9 +92,29 @@
         transition: background-image 1s;
       }
 
+      #slideshow{
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        transition: background-image 1s;
+        height: 200px;
+        width: 100%;
+
+      }
+
+      #names{
+        font-family: "Grey Qo", cursive;
+        font-weight: 550;
+        font-style: normal;
+        font-size: xxx-large;
+        margin: auto;
+        width: max-content;
+
+      }
+
 
       a{
-        color: white;
+        color: #810000;
       }
 
       h1,h2,h3,h4{
@@ -104,7 +135,7 @@
       #rsvp_div{
         width: 350px;
         margin: auto;
-        margin: 40vh auto 5% auto;
+        margin: 5vh auto 5vh auto;
   
       }
 
@@ -118,7 +149,6 @@
 
     #details{
 
-      background-color: rgba(54, 33, 123, 0.616);
       width: 100%;
       height: max-content;
       padding: 2%;
