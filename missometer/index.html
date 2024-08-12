@@ -11,17 +11,24 @@
     #threejscanvas {
 
         width: 100vw;
-        height: 90vh;
+        height: 100vh;
       border: solid 1px white;
       margin:0;
+    }
+
+    #miss_value{
+        color: white;
     }
 </style>
 
 
-<canvas id="threejscanvas" width="100%"></canvas>
+<canvas id="threejscanvas"  height="100%"></canvas>
+
 
 <input type="range" min=0 max=160 value=0 id="aortaSlider" style="position:absolute; top: 5vh; left: 10vw;">
 <div style="position:absolute; top: 10vh; left: 10vw;">
+    <div id="miss_value">0</div>
+    <button id="toggle-btn">START</button>
   <input type="checkbox" id="hideLbl"  checked>
 <label id="labelsLabel" for="hideLbl" style="color:white; font-size: 13px; font-family: Arial, Helvetica, sans-serif;">Labels</label>
 </div>
@@ -72,7 +79,27 @@
     var clock = new THREE.Clock()
     var delta = clock.getDelta();
 
+    var missValue = document.getElementById("miss_value")
+
+    var needleMoving = false;
+
     var needle;
+
+    var toggleBtn = document.getElementById("toggle-btn");
+
+    toggleBtn.addEventListener("click",function(){
+
+        if(needleMoving){
+            needleMoving = false;
+            this.innerHTML = "START"
+        }
+        else{
+            needleMoving = true;
+            this.innerHTML = "STOP"
+        }
+        
+
+    })
   
     // ---------------------------------------------------------------------
     // HDRI - IMAGE BASED LIGHTING
@@ -120,6 +147,8 @@ loader.load(
         mixer = new THREE.AnimationMixer(missometer);
 
         needle = missometer.getObjectByName("needle")
+
+       
 
         mixer.clipAction(aortaAnim[0]).time = 0;
         mixer.clipAction(aortaAnim[0]).play();
@@ -196,7 +225,13 @@ if(e.key >= 1 && e.key <=9){
 
     function animate() {
         requestAnimationFrame( animate );
-        needle.rotation.z -= 0.1
+
+        if(needleMoving){
+            needle.rotation.z -= 0.15
+            missValue.innerHTML = Math.trunc(-(THREE.MathUtils.radToDeg(needle.rotation.z) + 180) * 3.33) %1200
+        }
+
+
         if(mixer){
             mixer.update(delta);
         }
