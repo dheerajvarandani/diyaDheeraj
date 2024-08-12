@@ -10,7 +10,7 @@
 
     #threejscanvas {
 
-        width: 90vw;
+        width: 100vw;
         height: 90vh;
       border: solid 1px white;
       margin:0;
@@ -18,7 +18,7 @@
 </style>
 
 
-<canvas id="threejscanvas" ></canvas>
+<canvas id="threejscanvas" width="100%"></canvas>
 
 <input type="range" min=0 max=160 value=0 id="aortaSlider" style="position:absolute; top: 5vh; left: 10vw;">
 <div style="position:absolute; top: 10vh; left: 10vw;">
@@ -66,8 +66,8 @@
     let mixer;
   let labels = [];
   
-    camera.position.z = 5;
-    camera.position.y = 1;
+    camera.position.z = 2;
+    //camera.position.y = 1;
 
     var clock = new THREE.Clock()
     var delta = clock.getDelta();
@@ -88,6 +88,7 @@
         //scene1.background = texture;
         scene.background = new THREE.Color( "rgb(1,22,45)" );
         scene.environment = texture;
+        scene.environment.rotation = 180
 
     });
   
