@@ -1,0 +1,214 @@
+<html>
+
+<head></head>
+
+<body>
+    
+<style>
+
+
+
+    #threejscanvas {
+
+        width: 90vw;
+        height: 90vh;
+      border: solid 1px white;
+      margin:0;
+    }
+</style>
+
+
+<canvas id="threejscanvas" ></canvas>
+
+<input type="range" min=0 max=160 value=0 id="aortaSlider" style="position:absolute; top: 5vh; left: 10vw;">
+<div style="position:absolute; top: 10vh; left: 10vw;">
+  <input type="checkbox" id="hideLbl"  checked>
+<label id="labelsLabel" for="hideLbl" style="color:white; font-size: 13px; font-family: Arial, Helvetica, sans-serif;">Labels</label>
+</div>
+  <div id="loadingDiv">Loading...</div>
+  
+<script type="importmap">
+
+    {
+        "imports": {
+            "three": "./three/build/three.module.js"
+        }
+    }
+</script>
+<script type="module">
+
+    import * as THREE from 'three';
+    import { GLTFLoader } from "./three/GLTFLoader.js";
+    import { OrbitControls } from './three/OrbitControls.js';
+    import { RGBELoader } from './three/RGBELoader.js';
+  
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    const container = document.getElementById("threejscanvas")
+
+    const renderer = new THREE.WebGLRenderer({canvas: container});
+    renderer.setSize( container.clientWidth, container.clientHeight );
+    //document.body.appendChild( renderer.domElement );
+
+    const controls = new OrbitControls( camera, renderer.domElement );
+
+    const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+    scene.add( light );
+
+    const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+    scene.add( directionalLight );
+
+    const light2 = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1);
+    scene.add( light2 );     
+
+    let aorta;
+    let aortaAnim;
+    let mixer;
+  let labels = [];
+  
+    camera.position.z = 5;
+    camera.position.y = 1;
+
+    var clock = new THREE.Clock()
+    var delta = clock.getDelta();
+  
+    // ---------------------------------------------------------------------
+    // HDRI - IMAGE BASED LIGHTING
+    // ---------------------------------------------------------------------
+    new RGBELoader()
+    .setPath('./assets/')
+    .load('brown_photostudio_01_2k.hdr', function (texture) {
+
+        
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+
+        
+
+        
+        //scene1.background = texture;
+        scene.background = new THREE.Color( "rgb(1,22,45)" );
+        scene.environment = texture;
+
+    });
+  
+var loadingManager = new THREE.LoadingManager();
+
+  loadingManager.onLoad = function() {
+document.getElementById("loadingDiv").innerHTML = "Loaded!";    }
+
+
+  loadingManager.onError = function(item){
+    document.getElementById("loadingDiv").innerHTML = "Error: " + item }
+  
+
+const loader = new GLTFLoader(loadingManager);
+loader.load(
+	// resource URL
+	'./assets/missometer.glb',
+  //'https://storage.googleapis.com/dheerajv-bucket/images/aorta.glb',
+	// called when the resource is loaded
+	function ( gltf ) {
+
+
+        aorta = gltf.scene;
+        aortaAnim = gltf.animations;
+		scene.add( aorta);
+
+        mixer = new THREE.AnimationMixer(aorta);
+
+
+        mixer.clipAction(aortaAnim[0]).time = 0;
+        mixer.clipAction(aortaAnim[0]).play();
+        //console.log(mixer.clipAction(aortaAnim[0]))
+            labels = [
+    aorta.getObjectByName("supraceliacAorta"), //0,1 ( key + key - 1)
+    aorta.getObjectByName("supraCeliacAorta_line1"), //1,1 (key + key - 2)
+    aorta.getObjectByName("renalArtery"), //2,2
+    aorta.getObjectByName("renalArtery_line1"), //3,2
+    aorta.getObjectByName("commonIliac"), //4,3
+    aorta.getObjectByName("commonIliac_line1"), //5,3
+    aorta.getObjectByName("internalIliac"), //6,4
+    aorta.getObjectByName("internalIliac_line1"), //7,4
+    aorta.getObjectByName("thoracicAorta"),//8,5
+    aorta.getObjectByName("thoracicAorta_line1"),//9,5
+    aorta.getObjectByName("celiacTrunk"),//10
+    aorta.getObjectByName("celiacTrunk_line1"),//11
+    aorta.getObjectByName("infrarenalAorta"),//12
+    aorta.getObjectByName("infrarenalAorta_line1"),//13
+    aorta.getObjectByName("distalAorta"),//14
+    aorta.getObjectByName("distalAbdominalAorta_line1"),//15
+    aorta.getObjectByName("externalIliac"),//16
+    aorta.getObjectByName("external_Iliac_line1")//17
+
+    ]
+
+	});
+
+
+
+
+document.getElementById("hideLbl").addEventListener("click", function(){
+
+
+
+
+    if(!this.checked){
+        for(var i = 0; i < labels.length; i++){
+
+            labels[i].visible = false;
+
+        }
+    }
+    else{
+        for(var i = 0; i < labels.length; i++){
+
+        labels[i].visible = true;
+
+        }
+
+    }
+})
+
+  document.onkeydown = function(e){
+
+if(e.key >= 1 && e.key <=9){
+
+   var key = parseInt(e.key)
+
+   var label_text = labels[key + key - 2]
+   var label_line = labels[key + key - 1]
+
+    if(label_text.visible == true){
+    label_text.visible = false;
+    label_line.visible = false;
+    }
+    else{
+    label_text.visible = true;
+    label_line.visible = true;
+
+    }
+}
+  }
+
+    function animate() {
+        requestAnimationFrame( animate );
+        if(mixer){
+            mixer.update(delta);
+        }
+        renderer.render( scene, camera );
+
+    }
+    animate();
+
+    var slider = document.getElementById("aortaSlider").addEventListener("input",function(){
+
+        mixer.clipAction(aortaAnim[0]).stop();
+        mixer.clipAction(aortaAnim[0]).time = this.value/10;
+        mixer.clipAction(aortaAnim[0]).play();
+
+    })
+
+</script>
+
+</body>
+</html>
