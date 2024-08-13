@@ -8,11 +8,22 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 const container = document.getElementById("threejscanvas")
 
+
+
 const renderer = new THREE.WebGLRenderer({canvas: container});
 renderer.setSize( container.clientWidth, container.clientHeight );
-//document.body.appendChild( renderer.domElement );
+
+//document.body.appendChild( renderer.domElement );'
+
+
 
 const controls = new OrbitControls( camera, renderer.domElement );
+
+camera.position.z = 2;
+camera.position.y = 1;
+
+controls.target.set(0, 1, 0);;
+//controls.update();
 
 const light = new THREE.AmbientLight( 0x404040 ); // soft white light
 scene.add( light );
@@ -20,7 +31,7 @@ scene.add( light );
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
 scene.add( directionalLight );
 
-const light2 = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1);
+const light2 = new THREE.HemisphereLight( 0xffffbb, 0x080820, 0);
 scene.add( light2 );     
 
 let missometer;
@@ -28,8 +39,7 @@ let aortaAnim;
 let mixer;
 let labels = [];
 
-camera.position.z = 2;
-    camera.position.y = 1;
+
 
 var clock = new THREE.Clock()
 var delta = clock.getDelta();
@@ -47,10 +57,12 @@ toggleBtn.addEventListener("click",function(){
     if(needleMoving){
         needleMoving = false;
         this.innerHTML = "START"
+        this.style.backgroundColor = "#96ad66"
     }
     else{
         needleMoving = true;
         this.innerHTML = "STOP"
+        this.style.backgroundColor = "#b35353"
     }
     
 
@@ -78,12 +90,7 @@ new RGBELoader()
 
 var loadingManager = new THREE.LoadingManager();
 
-loadingManager.onLoad = function() {
-document.getElementById("loadingDiv").innerHTML = "Loaded!";    }
 
-
-loadingManager.onError = function(item){
-document.getElementById("loadingDiv").innerHTML = "Error: " + item }
 
 
 const loader = new GLTFLoader(loadingManager);
@@ -119,7 +126,7 @@ function animate() {
 
     if(needleMoving){
         needle.rotation.z -= 0.15
-        missValue.innerHTML = Math.trunc(-(THREE.MathUtils.radToDeg(needle.rotation.z) + 180) * 3.33) %1200
+        missValue.innerHTML = Math.round(-(THREE.MathUtils.radToDeg(needle.rotation.z) + 180) * 3.333333) %1200
     }
 
 
