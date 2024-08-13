@@ -25,14 +25,11 @@
 <canvas id="threejscanvas"  height="100%"></canvas>
 
 
-<input type="range" min=0 max=160 value=0 id="aortaSlider" style="position:absolute; top: 5vh; left: 10vw;">
-<div style="position:absolute; top: 10vh; left: 10vw;">
+<div style="position:absolute; top: 10vh; left: 10vw; font-size: xxx-large;">
     <div id="miss_value">0</div>
     <button id="toggle-btn">START</button>
-  <input type="checkbox" id="hideLbl"  checked>
-<label id="labelsLabel" for="hideLbl" style="color:white; font-size: 13px; font-family: Arial, Helvetica, sans-serif;">Labels</label>
 </div>
-  <div id="loadingDiv">Loading...</div>
+
   
 <script type="importmap">
 
@@ -150,78 +147,14 @@ loader.load(
 
        
 
-        mixer.clipAction(aortaAnim[0]).time = 0;
-        mixer.clipAction(aortaAnim[0]).play();
-        //console.log(mixer.clipAction(aortaAnim[0]))
-            labels = [
-    missometer.getObjectByName("supraceliacAorta"), //0,1 ( key + key - 1)
-    missometer.getObjectByName("supraCeliacAorta_line1"), //1,1 (key + key - 2)
-    missometer.getObjectByName("renalArtery"), //2,2
-    missometer.getObjectByName("renalArtery_line1"), //3,2
-    missometer.getObjectByName("commonIliac"), //4,3
-    missometer.getObjectByName("commonIliac_line1"), //5,3
-    missometer.getObjectByName("internalIliac"), //6,4
-    missometer.getObjectByName("internalIliac_line1"), //7,4
-    missometer.getObjectByName("thoracicAorta"),//8,5
-    missometer.getObjectByName("thoracicAorta_line1"),//9,5
-    missometer.getObjectByName("celiacTrunk"),//10
-    missometer.getObjectByName("celiacTrunk_line1"),//11
-    missometer.getObjectByName("infrarenalAorta"),//12
-    missometer.getObjectByName("infrarenalAorta_line1"),//13
-    missometer.getObjectByName("distalAorta"),//14
-    missometer.getObjectByName("distalAbdominalAorta_line1"),//15
-    missometer.getObjectByName("externalIliac"),//16
-    missometer.getObjectByName("external_Iliac_line1")//17
-
-    ]
 
 	});
 
 
 
 
-document.getElementById("hideLbl").addEventListener("click", function(){
 
 
-
-
-    if(!this.checked){
-        for(var i = 0; i < labels.length; i++){
-
-            labels[i].visible = false;
-
-        }
-    }
-    else{
-        for(var i = 0; i < labels.length; i++){
-
-        labels[i].visible = true;
-
-        }
-
-    }
-})
-
-  document.onkeydown = function(e){
-
-if(e.key >= 1 && e.key <=9){
-
-   var key = parseInt(e.key)
-
-   var label_text = labels[key + key - 2]
-   var label_line = labels[key + key - 1]
-
-    if(label_text.visible == true){
-    label_text.visible = false;
-    label_line.visible = false;
-    }
-    else{
-    label_text.visible = true;
-    label_line.visible = true;
-
-    }
-}
-  }
 
     function animate() {
         requestAnimationFrame( animate );
@@ -232,21 +165,13 @@ if(e.key >= 1 && e.key <=9){
         }
 
 
-        if(mixer){
-            mixer.update(delta);
-        }
+
         renderer.render( scene, camera );
 
     }
     animate();
 
-    var slider = document.getElementById("aortaSlider").addEventListener("input",function(){
 
-        mixer.clipAction(aortaAnim[0]).stop();
-        mixer.clipAction(aortaAnim[0]).time = this.value/10;
-        mixer.clipAction(aortaAnim[0]).play();
-
-    })
 
 </script>
 
